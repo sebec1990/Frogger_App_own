@@ -12,6 +12,14 @@ class Frog(RawTurtle):
         self.penup()
         self.goto(0,-250)
 
+class RaceCar(RawTurtle):
+    def __init__(self,canvas, x, y):
+        super().__init__(canvas)
+        self.shape("Img/racecar.gif")
+        self.left(180)
+        self.penup()
+        self.goto(x, y)
+
 class FroggerApplication(tkinter.Frame):
     def __init__(self, master=None):
         super().__init__(master)
@@ -27,6 +35,7 @@ class FroggerApplication(tkinter.Frame):
         screen = turtle.getscreen()
         screen.tracer(0)
         screen.register_shape("Img/frogger.gif")
+        screen.register_shape("Img/racecar.gif")
 
         turtle.color("blue")
         turtle.begin_fill()
@@ -48,14 +57,22 @@ class FroggerApplication(tkinter.Frame):
 
         frog = Frog(canvas)
 
-
         def jump():
             frog.forward(10)
             screen.update()
 
         screen.onkeypress(jump, "Up")
-        screen.listen()
 
+
+        car = RaceCar(canvas, 200, -50)
+        cars = []
+        cars.append(car)
+
+        def animate():
+            for car in cars:
+                car.forward(2)
+
+        screen.listen()
         screen.update()
 
 def main():
